@@ -37,8 +37,9 @@ function formatKVPs() {
       const formatBrackets = checkBrackets(arrFormatString);
       const fixBeforeImport = beforeImportFormat(formatBrackets);
       const ternaryFormat = fixBeforeImport.includes(' : ') ? formatTernary(fixBeforeImport) : `this.${fixBeforeImport}`;
+      const twoI18nFuncs = formatTwoI18nFunctions(ternaryFormat)
       // const varFormat = formatInterpolationVars(ternaryFormat);
-      funcs += ternaryFormat + ';';
+      funcs += twoI18nFuncs + ';';
     }
   }).on('close', () => {
     const funcArr = funcs.split(';').reduce((acc, next, ind) => {
@@ -108,6 +109,31 @@ function beforeImportFormat(str) {
     }
   }
   return str;
+}
+
+// make same line i18n functions into new lines
+function formatTwoI18nFunctions(str){
+    const indices = getIndicesOf('this.$t', str)
+    if(indices.length){
+      const split = str.split('this.$t').filter(i => i !== '').map(i => `this.$t${beforeImportFormat(i)}`).join(';')
+      return split
+    } else return str
+}
+
+function getIndicesOf(searchStr, str) {
+  var searchStrLen = searchStr.length;
+  if (searchStrLen == 0) {
+      return [];
+  }
+  var startIndex = 0, index, indices = [];
+  str = str.toLowerCase();
+  searchStr = searchStr.toLowerCase();
+
+  while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+      indices.push(index);
+      startIndex = index + searchStrLen;
+  }
+  return indices;
 }
 
 // removes ternary statements
