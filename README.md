@@ -16,8 +16,7 @@
 - You can now copy that object and put it in the `data()` function in the vue file and you will see the changes you made in the vue dev tools under the data compartment of the current vue you are testing 
 
 ## After running script (Bugs)
-- This script currently will not seperate ternary statements
-- This dcript returns an object whose values are strings with double quotes, which have to be manually removed before intended use
+- This script returns an object whose values are strings with double quotes, which have to be manually removed before intended use. The interpolated variable are not yet in string which will have to be manually put in strings before using.
 
 ## Issues and Pull Requests
 Any help on this will be most appreciated as I am quite new to automating tasks, pull requests are the best way for any changes and reach out through the isues tab.
